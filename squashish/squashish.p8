@@ -75,8 +75,22 @@ function _update()
     and ball.y > paddle.y - paddle.height
   then
     sfx(2)
-    ball.dy = -ball.dy
     score += 1
+    
+    -- speed up ball every 5 points
+    if score % 5 == 0 then
+      ball.dx = min(
+        8,
+        ball.dx + 1
+      )
+
+      ball.dy = min(
+        8,
+        ball.dy + 1
+      )
+    end
+    
+    ball.dy = -ball.dy
   end
   
   -- ball falls out of bottom
@@ -84,6 +98,10 @@ function _update()
     sfx(1)
     ball.y = 24
     lives -= 1
+    
+    -- reset ball speed
+    ball.dx = 2
+    ball.dy = -2
   end
 end
 
