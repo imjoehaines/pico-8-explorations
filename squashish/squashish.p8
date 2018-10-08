@@ -105,12 +105,22 @@ function _update()
   -- ball falls out of bottom
   if ball.y > 128 then
     sfx(1)
-    ball.y = 24
+    ball.y = flr(rnd(32))
+    ball.x = flr(rnd(100)) + 10
     lives -= 1
     
     -- reset ball speed
-    ball.dx = 2
-    ball.dy = -2
+    if flr(rnd(1)) == 1 then
+      ball.dx = 2
+    else
+      ball.dx = -2
+    end
+    
+    if flr(rnd(1)) == 1 then
+      ball.dy = -2
+    else
+      ball.dy = 2
+    end
   end
   
   -- if the player died this
