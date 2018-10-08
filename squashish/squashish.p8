@@ -11,25 +11,26 @@ local paddle = {
   y = 119,
   width = 24,
   height = 4,
-  colour = 1,
-  moveleft = function(self)
-    -- prevent going oob
-    if self.x <= padding then
-      return
-    end
+  colour = 1
+}
 
+function paddle:move(buttons)
+  local left = band(buttons, 1) == 1
+
+  if left and self.x > padding then
     self.x -= 3
-  end,
-  moveright = function(self)
+  end
+  
+  local right = band(buttons, 2) == 2
+
+  if right then
     local rightx = self.x + self.width
   
-    if rightx >= 127 - padding then
-      return
+    if rightx < 127 - padding then
+      self.x += 3
     end
-
-    self.x += 3
   end
-}
+end
 
 local ball = {
   x = 64,
@@ -61,11 +62,7 @@ function _update()
     return
   end
 
-  if btn(0) then
-    paddle:moveleft()
-  elseif btn(1) then
-    paddle:moveright()
-  end
+  paddle:move(btn())
   
   ball:move()
   
