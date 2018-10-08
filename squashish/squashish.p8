@@ -38,24 +38,25 @@ local ball = {
   dx = 2,
   dy = -2,
   size = 4,
-  colour = 13,
-  move = function(self)
-    if self.x < self.size or
-      self.x > 127 - self.size
-    then
-      self.dx = -self.dx
-      sfx(0)
-    end
-    
-    if self.y < self.size then
-      self.dy = -self.dy
-      sfx(0)
-    end
-  
-    self.x += self.dx
-    self.y += self.dy
-  end
+  colour = 13
 }
+
+function ball:move()
+  if self.x < self.size or
+    self.x > 127 - self.size
+  then
+    self.dx = -self.dx
+    sfx(0)
+  end
+    
+  if self.y < self.size then
+    self.dy = -self.dy
+    sfx(0)
+  end
+  
+  self.x += self.dx
+  self.y += self.dy
+end
 
 function _update()
   if lives == 0 then
