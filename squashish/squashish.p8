@@ -1,8 +1,11 @@
 pico-8 cartridge // http://www.pico-8.com
 version 16
 __lua__
+music(0)
+
 local padding = 4
 local score = 0
+local high_score = 0
 local max_lives = 3
 local lives = 3
 
@@ -58,6 +61,14 @@ function ball:move()
   self.y += self.dy
 end
 
+function _init()
+  cartdata(
+    "imjoehaines_squashish"
+  )
+  
+  high_score = dget(0)
+end
+
 function _update()
   if lives == 0 then
     return
@@ -100,6 +111,16 @@ function _update()
     -- reset ball speed
     ball.dx = 2
     ball.dy = -2
+  end
+  
+  -- if the player died this
+  -- round and beat their high
+  -- score, save it
+  if lives == 0
+    and score > high_score
+  then
+    high_score = score
+    dset(0, high_score)
   end
 end
 
@@ -157,10 +178,18 @@ function _draw()
       (127 / 2) - 2.5, -- magic!
       paddle.colour
     )
+    
+    local score_string =
+      "high score: " .. high_score
+    
+    print(
+      score_string,
+      (127 / 2) - #score_string * 2,
+      (127 / 2) + 6,
+      paddle.colour
+    )
   end
 end
-
-music(0)
 
 __gfx__
 08808800088088000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
