@@ -1,5 +1,5 @@
 pico-8 cartridge // http://www.pico-8.com
-version 16
+version 18
 __lua__
 music(0)
 
@@ -35,6 +35,16 @@ function paddle:move(buttons)
   end
 end
 
+function paddle:draw()
+  rectfill(
+    self.x,
+    self.y,
+    self.x + self.width,
+    self.y + self.height,
+    self.colour
+  )
+end
+
 local ball = {
   x = 64,
   y = 8,
@@ -59,6 +69,15 @@ function ball:move()
   
   self.x += self.dx
   self.y += self.dy
+end
+
+function ball:draw()
+  circfill(
+    self.x,
+    self.y,
+    self.size,
+    self.colour
+  )
 end
 
 function _init()
@@ -159,20 +178,9 @@ function _draw()
     )
   end
   
-  rectfill(
-    paddle.x,
-    paddle.y,
-    paddle.x + paddle.width,
-    paddle.y + paddle.height,
-    paddle.colour
-  )
+  paddle:draw()
 
-  circfill(
-    ball.x,
-    ball.y,
-    ball.size,
-    ball.colour
-  )
+  ball:draw()
   
   print(
     "score: " .. score,
